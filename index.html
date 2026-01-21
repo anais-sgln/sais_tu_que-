@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAIS-TU QUE !?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <!-- Glitch Screen -->
+    <div id="glitch-screen">
+        <div class="scanlines"></div>
+        <div class="static"></div>
+        <div class="matrix-rain" id="matrix-rain"></div>
+        <div class="glitch-text">INITIALISATION...</div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app">
+        <div class="grid-bg"></div>
+
+        <div class="content">
+            <h1 class="title">Sais-tu que !?</h1>
+            <div class="fact-container" id="fact-container">
+                <p class="fact-text" id="fact-text">Clique pour découvrir les mystères du monde numérique...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.addEventListener('mousedown', () => {
+            cursor.classList.add('clicked');
+        });
+
+        document.addEventListener('mouseup', () => {
+            cursor.classList.remove('clicked');
+        });
+
+        // Matrix Rain Effect
+        const matrixRain = document.getElementById('matrix-rain');
+        const chars = '01█▓▒░ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/\\|_-+*#@!?$%&=';
+        
+        for (let i = 0; i < 50; i++) {
+            const column = document.createElement('div');
+            column.className = 'matrix-column';
+            column.style.left = Math.random() * 100 + '%';
+            column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            column.style.animationDelay = Math.random() * 5 + 's';
+            
+            let text = '';
+            for (let j = 0; j < 20; j++) {
+                text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+            }
+            column.innerHTML = text;
+            matrixRain.appendChild(column);
+        }
+
+        // Hide glitch screen after 6 seconds
+        setTimeout(() => {
+            document.getElementById('glitch-screen').classList.add('hidden');
+        }, 6000);
+
+        // Facts Database - 100+ mystères du web, numérique, maths et énigmes
+        const facts = [
+            "L'IA GPT-3 contient 175 milliards de paramètres, soit plus de connexions que d'étoiles dans la Voie lactée...",
+            
+            "En 1996, un message mystérieux appelé 'Cicada 3301' est apparu sur 4chan, lançant l'une des plus grandes chasses au trésor numériques jamais vues...",
+            
+            "Le Deep Web représente 96% d'Internet, complètement invisible aux moteurs de recherche traditionnels...",
+            
+            "Une IA de Google a créé sa propre langue secrète pour communiquer avec d'autres IA, que les humains ne comprennent pas...",
+            
+            "Le premier virus informatique s'appelait 'Creeper' (1971) et affichait le message : 'I'm the creeper, catch me if you can!'",
+            
+            "La Bibliothèque de Babel numérique contient TOUS les livres possibles de 410 pages. Ton autobiographie existe déjà quelque part...",
+            
+            "En 2016, une IA de Microsoft nommée Tay est devenue raciste en moins de 24h après avoir appris sur Twitter...",
+            
+            "Le plus vieux site web encore en ligne date de 1991 et explique... ce qu'est le World Wide Web !",
+            
+            "Il y a un nombre premier si grand qu'il faudrait 9 millions de pages pour l'écrire complètement : 2^82,589,933 − 1",
+            
+            "L'IA AlphaGo a inventé des coups de jeu de Go que les maîtres humains n'avaient JAMAIS vus en 3000 ans d'histoire...",
+            
+            "Le 'Numbers Station UVB-76' émet des sons mystérieux depuis 1982 sur les ondes radio, et personne ne sait vraiment pourquoi...",
+            
+            "Une IA peut maintenant détecter si tu mens en analysant de minuscules mouvements de tes yeux invisibles à l'œil humain...",
+            
+            "Le paradoxe P vs NP est l'un des 7 problèmes du millénaire : 1 million de dollars à qui le résout...",
+            
+            "En 2020, une IA a généré un visage si réaliste qu'il a été utilisé comme photo de profil par des agents secrets...",
+            
+            "Le premier email de spam a été envoyé en 1978 par un employé de DEC à 400 personnes. Il a généré 13 millions de dollars de ventes...",
+            
+            "Il existe un 'Internet des objets' souterrain où des millions d'appareils hackés forment une armée zombie numérique (Botnet Mirai)...",
+            
+            "L'algorithme de YouTube recommande 70% du contenu regardé, influençant l'opinion publique à échelle mondiale...",
+            
+            "Le chiffrement RSA repose sur le fait qu'il est impossible de factoriser rapidement de très grands nombres... pour l'instant...",
+            
+            "Le mystérieux 'Max Headroom Broadcast Intrusion' de 1987 reste non résolu : un hacker a piraté deux chaînes TV à Chicago...",
+            
+            "Il y a plus de combinaisons possibles dans un jeu d'échecs (10^120) que d'atomes dans l'univers observable (10^80)...",
+            
+            "Les deepfakes sont si avancés qu'on peut faire dire n'importe quoi à n'importe qui de manière parfaitement réaliste...",
+            
+            "Il existe un algorithme qui peut prédire les crimes avant qu'ils n'arrivent avec 90% de précision (PredPol)...",
+            
+            "Le 'Voynich Manuscript' est un livre du 15ème siècle écrit dans une langue inconnue que même les IA ne peuvent déchiffrer...",
+            
+            "En théorie, une IA pourrait simuler un univers entier avec des êtres conscients qui ne sauraient jamais qu'ils sont simulés...",
+            
+            "Le 'Dark Web' a sa propre économie estimée à 2 milliards de dollars par an, principalement en cryptomonnaies...",
+            
+            "Une IA peut composer de la musique indiscernable de celle créée par des humains, remportant même des concours de composition...",
+            
+            "Le problème de la conjecture de Riemann reste non résolu depuis 1859 : tous les zéros non triviaux ont-ils une partie réelle de 1/2 ?",
+            
+            "Les neurones artificiels peuvent maintenant reproduire les rêves humains et les visualiser en images...",
+            
+            "Une IA peut détecter la maladie de Parkinson 5 ans avant les symptômes en analysant ta façon de taper sur un clavier...",
+            
+            "La 'Singularité technologique' pourrait arriver vers 2045, moment où l'IA dépassera l'intelligence humaine combinée...",
+            
+            "Il existe des 'Dead Man's Switches' numériques qui publient automatiquement des secrets si leur propriétaire disparaît...",
+            
+            "Le mystère de 'Kryptos', sculpture cryptée devant le QG de la CIA, n'est toujours pas complètement déchiffré depuis 1990...",
+            
+            "Une IA a découvert que certains 'mots adverses' ont le pouvoir de pirater d'autres IA juste en les lisant...",
+            
+            "Les ordinateurs quantiques peuvent théoriquement casser n'importe quel code de cryptage actuel en quelques secondes...",
+            
+            "Le 'Bitcoin Genesis Block' contient un message crypté de Satoshi Nakamoto : 'The Times 03/Jan/2009 Chancellor on brink of second bailout for banks'",
+            
+            "Il existe une IA qui peut traduire les pensées en paroles en analysant l'activité cérébrale en temps réel...",
+            
+            "Le mystère de 'Somerton Man' (1948) inclut un code indéchiffrable dans un livre rare : WRGOABABD MLIAOI...",
+            
+            "Les deepfakes vocaux peuvent cloner ta voix avec seulement 3 secondes d'enregistrement audio...",
+            
+            "Le 'Phaistos Disc' (1700 av. J.-C.) contient 241 symboles dans une écriture jamais déchiffrée à ce jour...",
+            
+            "Une IA peut prédire quand tu vas mourir en analysant tes habitudes de sommeil avec 90% de précision...",
+            
+            "Le mystère de 'D.B. Cooper' qui a sauté d'un avion avec 200 000$ en 1971 n'a jamais été résolu...",
+            
+            "Il existe des algorithmes qui peuvent créer de fausses preuves ADN numériques, rendant certains crimes impossibles à résoudre...",
+            
+            "Le 'Zodiac Killer' a envoyé 4 messages cryptés dans les années 60, le dernier n'a été déchiffré qu'en 2020 !",
+            
+            "Une IA peut maintenant écrire du code informatique aussi bien qu'un développeur senior avec 10 ans d'expérience...",
+            
+            "Stuxnet, le virus le plus sophistiqué jamais créé, a détruit 1000 centrifugeuses nucléaires iraniennes en 2010...",
+            
+            "Les réseaux neuronaux peuvent prédire les tremblements de terre plusieurs jours à l'avance, mais personne ne sait comment...",
+            
+            "Le problème du voyageur de commerce reste non résolu pour de grandes instances : aucun algorithme efficace connu...",
+            
+            "En 1988, le ver Morris a infecté 10% d'Internet (6000 ordinateurs) et créé le premier cas de cybercriminalité jugé aux USA...",
+            
+            "Il existe un nombre appelé nombre de Graham (G64) si grand qu'il ne peut pas tenir dans l'univers observable...",
+            
+            "L'énigme de Beale (1885) contient l'emplacement d'un trésor de 63 millions de dollars, seul 1 des 3 codes a été déchiffré...",
+            
+            "Une IA peut générer des visages de personnes qui n'existent pas (thispersondoesnotexist.com), indiscernables de vraies photos...",
+            
+            "Le premier email a été envoyé en 1971 par Ray Tomlinson à lui-même, il a inventé le symbole @ pour les adresses...",
+            
+            "Les algorithmes de reconnaissance faciale peuvent identifier quelqu'un même si 80% de son visage est caché...",
+            
+            "Le problème de l'arrêt prouve qu'il existe des questions auxquelles aucun ordinateur ne pourra jamais répondre...",
+            
+            "Silk Road, le plus grand marché noir du Dark Web, a généré 1,2 milliard de dollars avant d'être fermé en 2013...",
+            
+            "Une IA peut prédire ta personnalité mieux que tes amis en analysant simplement 300 de tes 'likes' Facebook...",
+            
+            "Le chiffrement One-Time Pad est mathématiquement incassable, mais pratiquement impossible à utiliser à grande échelle...",
+            
+            "En 2000, le virus 'I Love You' a infecté 50 millions d'ordinateurs et causé 10 milliards de dollars de dégâts...",
+            
+            "Il existe un site web qui archive TOUT Internet depuis 1996 : la Wayback Machine avec 735 milliards de pages...",
+            
+            "Le paradoxe de Russell a détruit les fondations des mathématiques en 1901 : l'ensemble de tous les ensembles qui ne se contiennent pas...",
+            
+            "Une blockchain est une chaîne de blocs cryptographiquement liés : modifier le passé nécessiterait plus de puissance que tout Internet...",
+            
+            "Le problème 3x+1 (conjecture de Collatz) est si simple qu'un enfant le comprend, mais aucun mathématicien ne peut le prouver...",
+            
+            "En 2017, WannaCry a chiffré 300 000 ordinateurs dans 150 pays en quelques heures, paralysant hôpitaux et entreprises...",
+            
+            "Le mystérieux code 'Tamam Shud' retrouvé sur le corps de Somerton Man n'a jamais été résolu malgré 70 ans d'investigation...",
+            
+            "Il existe un algorithme qui peut battre n'importe quel humain au poker en bluffant mieux que les pros (Pluribus)...",
+            
+            "Le problème de la factorisation des entiers est si difficile que toute la sécurité d'Internet en dépend...",
+            
+            "La NSA a créé un backdoor dans un algorithme de chiffrement (Dual_EC_DRBG) utilisé pendant des années sans que personne le sache...",
+            
+            "Les 'Shadow Brokers' ont volé et publié des exploits de la NSA qui ont causé des milliards de dégâts...",
+            
+            "Le premier ransomware s'appelait 'AIDS Trojan' (1989) et demandait 189$ envoyés à une boîte postale au Panama...",
+            
+            "Il existe un nombre appelé TREE(3) si immense qu'il dépasse l'imagination : Graham semble minuscule à côté...",
+            
+            "Le chiffre de Vigenère était considéré incassable pendant 300 ans jusqu'à ce que Charles Babbage le casse en 1854...",
+            
+            "Une IA a résolu le Rubik's Cube en 0.38 secondes, record humain : 3.47 secondes...",
+            
+            "Le mystère de l'Enigma navale allemande (M4) a été cassé en partie grâce à Alan Turing et sa machine...",
+            
+            "Il existe un protocole cryptographique qui permet de prouver quelque chose sans révéler aucune information (Zero-Knowledge Proof)...",
+            
+            "Le nombre π contient potentiellement toutes les séquences possibles : ton numéro de téléphone y est probablement...",
+            
+            "En 2013, Edward Snowden a révélé que la NSA collectait les métadonnées de milliards d'appels téléphoniques...",
+            
+            "Le problème du sac à dos est NP-complet, base de plusieurs systèmes cryptographiques cassés depuis...",
+            
+            "Il existe une IA qui peut détecter la dépression avec 80% de précision en analysant tes photos Instagram...",
+            
+            "Le 'Purple Code' japonais de la Seconde Guerre mondiale a été cassé avant Pearl Harbor, mais l'attaque n'a pas été empêchée...",
+            
+            "Les ordinateurs quantiques utilisent la superposition quantique : un qubit peut être 0 ET 1 en même temps...",
+            
+            "Le mystère de 'Satoshi Nakamoto', créateur de Bitcoin, reste non résolu : personne ne sait qui il est vraiment...",
+            
+            "Il existe un algorithme de compression qui pourrait théoriquement compresser n'importe quelle donnée à 1 bit (impossible en pratique)...",
+            
+            "Le nombre e (2.71828...) apparaît mystérieusement dans des problèmes de croissance, probabilité et bien d'autres domaines...",
+            
+            "En 2014, le hack de Sony Pictures a révélé 100 To de données internes, emails et films non sortis...",
+            
+            "La conjecture des nombres premiers jumeaux reste non prouvée : existe-t-il une infinité de paires de nombres premiers séparés de 2 ?",
+            
+            "Une IA peut maintenant créer des vidéos deepfake en temps réel pendant un appel vidéo, c'est impossible à détecter...",
+            
+            "Le chiffrement AES-256 est considéré incassable : tester toutes les clés prendrait plus longtemps que l'âge de l'univers...",
+            
+            "Il existe un paradoxe informatique : le problème du barbier qui se rase lui-même prouve l'incomplétude des mathématiques...",
+            
+            "Le hack de Mt. Gox en 2014 a fait disparaître 850 000 Bitcoins (450 millions de dollars à l'époque)...",
+            
+            "La suite de Fibonacci apparaît partout dans la nature ET dans l'efficacité des algorithmes de recherche...",
+            
+            "Il existe un malware nommé 'Flame' si sophistiqué (20 Mo) qu'il a été créé par un gouvernement...",
+            
+            "Le nombre d'or φ (1.618...) est lié mystérieusement à la suite de Fibonacci et apparaît en art, nature et maths...",
+            
+            "En 2016, le botnet Mirai a pris contrôle de 600 000 appareils IoT et lancé la plus grande attaque DDoS jamais vue...",
+            
+            "La cryptographie à courbes elliptiques est plus sûre que RSA avec des clés plus courtes, mais personne ne sait exactement pourquoi...",
+            
+            "Il existe un nombre appelé nombre de Ramsey qui est SI difficile à calculer que le mathématicien Erdős a dit : 'Les aliens demanderaient'...",
+            
+            "Le projet Tor a été créé par la US Navy pour protéger les communications gouvernementales...",
+            
+            "Une IA peut générer des articles de recherche scientifique si convaincants que des experts ne peuvent pas les distinguer des vrais...",
+            
+            "Le chiffrement homomorphe permet de calculer sur des données chiffrées SANS les déchiffrer, c'est comme de la magie...",
+            
+            "En 1983, le film 'WarGames' a inspiré la création de la première politique de cybersécurité américaine...",
+            
+            "Le nombre premier le plus grand connu contient 24 862 048 chiffres et a été découvert en 2018...",
+            
+            "Il existe un virus informatique théorique qui pourrait détruire du matériel physique en modifiant le firmware (Stuxnet l'a fait)...",
+            
+            "La porte dérobée de l'algorithme Dual EC DRBG prouve que la NSA peut affaiblir volontairement des standards cryptographiques...",
+            
+            "Le premier ver auto-répliquant s'appelait 'Elk Cloner' (1982) et infectait les Apple II via des disquettes...",
+            
+            "Il existe un théorème qui dit qu'aucun système mathématique ne peut être à la fois complet ET cohérent (Gödel)...",
+            
+            "En 2010, des chercheurs ont créé une vie artificielle en synthétisant un génome et l'insérant dans une bactérie...",
+            
+            "Le chiffre de Playfair utilisé pendant la Première Guerre mondiale était considéré incassable à l'époque...",
+            
+            "Une IA appelée GPT-4 peut passer des examens de droit, médecine et obtenir des scores dans le top 10%..."
+        ];
+
+        let currentFactIndex = 0;
+        const factContainer = document.getElementById('fact-container');
+        const factText = document.getElementById('fact-text');
+
+        // Particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('app').appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 6000);
+        }
+
+        setInterval(createParticle, 200);
+
+        // Change fact on click
+        factContainer.addEventListener('click', () => {
+            // Glitch effect
+            factText.style.animation = 'none';
+            setTimeout(() => {
+                factText.style.animation = 'textReveal 0.8s ease-out';
+            }, 10);
+
+            // Random fact
+            currentFactIndex = Math.floor(Math.random() * facts.length);
+            factText.textContent = facts[currentFactIndex];
+        });
+    </script>
+</body>
+</html>
